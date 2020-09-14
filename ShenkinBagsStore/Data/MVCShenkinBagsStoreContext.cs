@@ -26,7 +26,9 @@ namespace ShenkinBagsStore.Models
 
 
             public DbSet<Transaction> Transactions { get; set; }
-     
+
+        public DbSet<CartItem> ShoppingCartItems { get; set; }
+
     }
     
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShenkinBagsStore.Models;
 
 namespace ShenkinBagsStore.Migrations
 {
     [DbContext(typeof(MVCShenkinBagsStoreContext))]
-    partial class MVCShenkinBagsStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200914142900_thirdmig")]
+    partial class thirdmig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

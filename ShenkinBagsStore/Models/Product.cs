@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShenkinBagsStore.Models
 {
@@ -37,7 +39,9 @@ namespace ShenkinBagsStore.Models
 
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
-        public float Price { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Price { get; set; }
         [Display(Name = "Color")]
         public Color? Colorr { get; set; }
         [Display(Name = "Product Type Id")]
@@ -48,6 +52,7 @@ namespace ShenkinBagsStore.Models
 
         [Display(Name ="Gender")]
         public Gender? Genderr { get; set; }
-      //  public string CartId { get; internal set; }
+        //  public string CartId { get; internal set; }
+        public string Category { get; set; }
     }
 }

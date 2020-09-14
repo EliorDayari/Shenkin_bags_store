@@ -19,9 +19,33 @@ namespace ShenkinBagsStore.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string productcategory, string searchString)
         {
-            return View(await _context.Products.ToListAsync());
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Products
+                                            orderby m.Category
+                                            select m.Category;
+
+            var products = from m in _context.Products
+                           select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.ProductName.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(productcategory))
+            {
+                products = products.Where(x => x.Category == productcategory);
+            }
+
+            var productCategroyVM = new ProductCategoryViewModel
+            {
+                Categries = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Products = await products.ToListAsync()
+            };
+
+            return View(productCategroyVM);
         }
 
         // GET: Products/Details/5
@@ -53,7 +77,7 @@ namespace ShenkinBagsStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,Colorr,ProductTypeId,Description,Quantity,Metrial,Genderr")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,Colorr,ProductTypeId,Description,Quantity,Metrial,Genderr,Category")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +109,7 @@ namespace ShenkinBagsStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Colorr,ProductTypeId,Description,Quantity,Metrial,Genderr")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Colorr,ProductTypeId,Description,Quantity,Metrial,Genderr,Category")] Product product)
         {
             if (id != product.ProductId)
             {

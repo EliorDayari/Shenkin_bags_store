@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ShenkinBagsStore.Models.Product>
+﻿@model ShenkinBagsStore.Models.ProductCategoryViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,38 +9,42 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Products" asp-action="Index" method="get">
+    <p>
+
+        <select asp-for="ProductCategory" asp-items="Model.Categries">
+            <option value="">All</option>
+        </select>
+
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                @Html.DisplayNameFor(model => model.Products[0].ProductName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.Products[0].Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Colorr)
+                @Html.DisplayNameFor(model => model.Products[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductTypeId)
+                @Html.DisplayNameFor(model => model.Products[0].Metrial)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Metrial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genderr)
+                @Html.DisplayNameFor(model => model.Products[0].Category)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.Products)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductName)
@@ -49,22 +53,13 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Colorr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductTypeId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Metrial)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Genderr)
+                @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
@@ -72,6 +67,6 @@
                 <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
