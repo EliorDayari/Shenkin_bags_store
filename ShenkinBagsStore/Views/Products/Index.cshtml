@@ -11,14 +11,14 @@
 </p>
 <form asp-controller="Products" asp-action="Index" method="get">
     <p>
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Search" />
+    
 
         <select asp-for="ProductCategory" asp-items="Model.Categries">
             <option value="">All</option>
         </select>
-
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Search" />
-    </p>
+        </p>
 </form>
 
 <table class="table">

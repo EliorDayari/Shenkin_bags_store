@@ -19,9 +19,35 @@ namespace ShenkinBagsStore.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            return View(await _context.Users.ToListAsync());
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Email" ? "email_desc" : "Email";
+            ViewData["CurrentFilter"] = searchString;
+            var users = from s in _context.Users
+                           select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(s => s.UserName.Contains(searchString)
+                                       || s.Email.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(s => s.UserName);
+                    break;
+              case "Email":
+                  users = users.OrderBy(s => s.Email);
+                  break;
+                case "email_desc":
+                    users = users.OrderByDescending(s => s.Email);
+                    break;
+                default:
+                    users = users.OrderBy(s => s.UserName);
+                    break;
+            }
+            return View(await users.AsNoTracking().ToListAsync());
         }
 
         // GET: Users/Details/5
